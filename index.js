@@ -21,6 +21,6 @@ io.on('connection',(socket) => {
 });
 
 
-http.listen(4002, () => {
+http.listen(4000, () => {
     console.log('listening on port 4000');
 })
