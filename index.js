@@ -1,19 +1,26 @@
-const app = require('express')()
+const app = require('express')();
 const http = require('http').createServer(app);
-const socketIo = require('socket.io')(http)
+const io = require('socket.io')(http);
 
-app.get('/', (req,res) => {
-    // res.send('<h1>Chat App</h1>')
-    res.sendFile(__dirname + '/index.html')
+app.get('/', (req, res) =>{
+    res.sendFile(__dirname + '/index.html');
 })
 
-socketIo.on('connection', (socket)=>{
+io.on('connection',(socket) => {
     console.log('a user connected');
-    
 
-})
+    socket.on('disconnect',() => {
+        console.log('a user is disconnected')
+    })
 
-http.listen(4000, () => {
+    socket.on('chat message', (msg) => {
+        console.log(socket);
+        console.log('message : ' + msg)
+        io.emit('chat message', msg);
+    })
+});
+
+
+http.listen(4002, () => {
     console.log('listening on port 4000');
-    
 })
